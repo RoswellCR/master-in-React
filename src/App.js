@@ -22,7 +22,8 @@ class Hijo extends Component{
 
 class App extends Component {
   manejador=(name)=>{
-    alert(" Esto es "+ name);
+    alert(" Esto es: "+ name);
+
   }
 
   render(){
