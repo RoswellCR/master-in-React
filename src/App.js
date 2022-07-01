@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import './global.css'
 
-function App() {
+class Hijo extends Component{
+  manejadorClick=()=>{
+    this.props.onSaluda("pasando Datos de hijo a padre")
+  }
+  render(){
+    return(
+      <div className='box blue'>
+        <h1>HIJO</h1>
+        <button onClick={this.manejadorClick}>
+          
+          Saluda
+        </button>
+        
+      </div>
+    );
+  }
+}
+
+
+class App extends Component {
+  manejador=(name)=>{
+    alert(" Esto es "+ name);
+  }
+
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='box red'>
+       <Hijo 
+       onSaluda={this.manejador}
+       />
     </div>
   );
+  }
 }
 
 export default App;
