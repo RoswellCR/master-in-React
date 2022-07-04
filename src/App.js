@@ -19,6 +19,39 @@ class Hijo extends Component{
   }
 }
 
+class InputNoControlado extends Component {
+  nombre = React.createRef();
+  email = React.createRef();
+
+  handelClick=()=>{
+    const nombre = this.nombre.current.value
+    const email = this.email.current.value
+
+    //manejo de datos 
+    this.props.onSend({nombre, email})
+  }
+
+  render(){
+    return (
+      <div>
+        <input 
+        type="text"
+        ref={this.nombre}
+        placeholder='Nombre'
+        />
+        <input 
+        type="text"
+        ref={this.email}
+        placeholder='Email'
+        />
+      
+      <button onClick={this.handelClick}>
+        Enviar
+      </button>
+      </div>
+    )
+  }
+}
 
 class App extends Component {
   state = {mostarH1:false}
@@ -29,6 +62,10 @@ class App extends Component {
     alert(" Esto es: "+ name);
       this.setState((state)=>this.mostarH1= true);
   };
+
+  send=(data)=>{
+    console.log(data)
+  }
 
   render(){
   console.log(this.mostarH1)
@@ -42,7 +79,9 @@ class App extends Component {
           ? "Se han pasado los datos de hijo a padre" 
           : "No se ha pasado data aun de hijo a padre"}
        </div>
-       
+       <InputNoControlado 
+        onSend={this.send}
+       />
     </div>
     );
   }
