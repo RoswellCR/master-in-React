@@ -2,18 +2,24 @@ import React, {Component} from 'react';
 import './global.css'
 
 class Hijo extends Component{
-  
-  manejadorClick=()=>{
-     this.props.onSaluda("pasando Datos de hijo a padre");
-    
+  handleSubmit = (event) =>{
+    event.preventDefault();
+    const name = event.target[0].value;
+    const mail = event.target[1].value;
+
+    this.props.mostrando({name, mail})
   }
+  
   render(){
     return(
       <div className='box blue'>
-        <h1>HIJO</h1>
-        <button onClick={this.manejadorClick}>
-          Saluda
-        </button>
+        <form onSubmit={this.handleSubmit}>
+         <input type='text' placeholder="2doNombre" />
+         <input type='text' placeholder="Correo Nacional" />   
+         <button>
+            Enviar 
+         </button>   
+       </form>
       </div>
     );
   }
@@ -30,6 +36,8 @@ class InputNoControlado extends Component {
     //manejo de datos 
     this.props.onSend({nombre, email})
   }
+
+  
 
   render(){
     return (
@@ -48,6 +56,7 @@ class InputNoControlado extends Component {
       <button onClick={this.handelClick}>
         Enviar
       </button>
+      
       </div>
     )
   }
@@ -58,9 +67,9 @@ class App extends Component {
   aviso=()=>{
      ;
   };
-  manejador = (name) => {
-    alert(" Esto es: "+ name);
-      this.setState((state)=>this.mostarH1= true);
+  manejador = (data) => {
+    alert(" Esto es: "+ data.name +" "+ data.mail );
+      console.log(data)
   };
 
   send=(data)=>{
@@ -72,7 +81,7 @@ class App extends Component {
     return (
     <div className='box red'>
        <Hijo 
-         onSaluda={this.manejador}
+         mostrando={this.manejador}
        />
        <div >
           Info:{this.mostarH1 
@@ -82,6 +91,8 @@ class App extends Component {
        <InputNoControlado 
         onSend={this.send}
        />
+       <></>
+       
     </div>
     );
   }
