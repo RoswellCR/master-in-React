@@ -1,99 +1,56 @@
 import React, {Component} from 'react';
 import './global.css'
 
-class Hijo extends Component{
-  handleSubmit = (event) =>{
-    event.preventDefault();
-    const name = event.target[0].value;
-    const mail = event.target[1].value;
-
-    this.props.mostrando({name, mail})
+//al hacer uso de Inputs Controlados se puede tener acceso a los datos que van entrando en
+//cada momento, por lo que podremos validarlos.
+class InputControlado extends Component {
+  state={
+    text:'',
+    //tieneError: false,
+    color: '#E8E8E8'
   }
-  
+  actualizar=(event)=>{
+    const text = event.target.value
+    //const tieneError = text !=='' && text.length< 5
+    let color = 'green'
+    if(text.trim()=== ''){
+      color = '#E8E8E8'
+    }
+    if(text.trim() !== '' && text.trim().length<5){
+      color = 'red'
+    }
+    this.setState({text, color});
+    console.log(text, color);
+  }
   render(){
-    return(
-      <div className='box blue'>
-        <form onSubmit={this.handleSubmit}>
-         <input type='text' placeholder="2doNombre" />
-         <input type='text' placeholder="Correo Nacional" />   
-         <button>
-            Enviar 
-         </button>   
-       </form>
-      </div>
-    );
-  }
-}
-
-class InputNoControlado extends Component {
-  nombre = React.createRef();
-  email = React.createRef();
-
-  handelClick=()=>{
-    const nombre = this.nombre.current.value
-    const email = this.email.current.value
-
-    //manejo de datos 
-    this.props.onSend({nombre, email})
-  }
-
-  
-
-  render(){
+    const styles = {
+      border: `1px solid ${this.state.color}`,  //'1px solid red' :'1px solid #E8E8E8',
+      padding: '0.3em 0.6em',
+      outline: 'none'
+    }
+    
     return (
-      <div>
-        <input 
-        type="text"
-        ref={this.nombre}
-        placeholder='Nombre'
+      <input 
+        type='text'
+        value={this.state.text}
+        onChange={this.actualizar} //llamara al metodo actualizar
+        style={styles}
         />
-        <input 
-        type="text"
-        ref={this.email}
-        placeholder='Email'
-        />
-      
-      <button onClick={this.handelClick}>
-        Enviar
-      </button>
-      
-      </div>
     )
   }
 }
 
 class App extends Component {
-  state = {mostarH1:false}
-  aviso=()=>{
-     ;
-  };
-  manejador = (data) => {
-    alert(" Esto es: "+ data.name +" "+ data.mail );
-      console.log(data)
-  };
-
-  send=(data)=>{
-    console.log(data)
-  }
-
+  
   render(){
-  console.log(this.mostarH1)
+  
     return (
     <div className='box red'>
-       <Hijo 
-         mostrando={this.manejador}
+       <h1>Inputs Controlados</h1>
+       <InputControlado 
+        
        />
-       <div >
-          Info:{this.mostarH1 
-          ? "Se han pasado los datos de hijo a padre" 
-          : "No se ha pasado data aun de hijo a padre"}
-       </div>
-       <InputNoControlado 
-        onSend={this.send}
-       />
-       <></>
-       
-    </div>
+     </div>
     );
   }
 }
