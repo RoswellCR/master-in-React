@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './global.css'
-
+import axios from 'axios';
 
 
     
@@ -11,9 +11,8 @@ class App extends Component {
   }
 
   componentDidMount(){
-    fetch('https://jsonplaceholder.typicode.com/users')
-    .then((res)=>res.json())
-    .then(users=>this.setState({users, cargando:false }))
+    axios.get('https://jsonplaceholder.typicode.com/users')
+    .then(res=>this.setState({users:res.data, cargando:false }))
     .catch(error=>{
       //manejo de errores
     })
