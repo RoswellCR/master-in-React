@@ -1,72 +1,57 @@
 import React, {Component} from 'react';
-import './global.css'
+//import './global.css'
+// const URL= 'https://jsonplaceholder.typicode.com/users/
 
-
-class UserDetails extends Component{
-    state = {
-       user :{},
-       isFetching: false 
-    }
-
-    componentDidMount(){
-        this.fetchData()
-    }
-    componentDidUpdate(prevProps, prevState){
-      console.log('componentDidUpdate', prevProps, prevState)
-      if (prevProps.userID!== this.props.userID){
-        this.fetchData();
-      }
-    }
-    
-    fetchData=()=>{
-      this.setState({
-        isFetching: true
-      })
-      const URL= 'https://jsonplaceholder.typicode.com/users/'+ this.props.userID
-     console.log(URL)
-     fetch(URL)
-      .then(res=> res.json(URL))
-      .then(user=>this.setState({user, isFetching: false}))
-    }
-
+//No recomendado usar este tipo de patron
+class Header extends Component{
   render(){
-      
-      return (
-        <div>
-          <h1>User Details</h1>
-          { this.state.isFetching 
-          ? (<h1>Haciendo fetching a data...</h1>)
-          : (<pre> {JSON.stringify(this.state.user, null, 4)} </pre>)
-          }
-        </div>
-    )
-    }
+    return (
+        <>
+          <p>Hijo a Padre</p>
+          <h1> Event Bubbling</h1>
+        </>
+    );
   }
-    
+}    
+
+class Hijo extends Component {
+  handleClick = (e) => {
+    //e.stopPropagation();
+    e.saludo = "Hola mensaje desde el hijo";
+    console.log("click en <Hijo/>");
+  };
+
+  render() {
+    return (
+      <div style={boxStyles} onClick={this.handleClick}>
+        <p>Hijo</p>
+      </div>
+    );
+  }
+}
+const boxStyles = {
+  padding: '0.5em',
+  margin: '0.5em',
+  border: '1px solid gray',
+  borderRadius: '0.3em',
+  textAlign: 'center'
+} 
 class App extends Component {
-  state = {
-    id: 2
-  
-  }
-  
-  aumentar=()=>{
-    this.setState(state => ( {
-      id: state.id + 1
-    } ))
+  handleClick = (e) => {
+    console.log('click en <Padre/>', e.saludo)
   }
 
-  render(){
-    const {id}= this.state;
+  render() {
+
 
     return (
-    <div className='box red'>
-       <h1>componentDidUpdate</h1>
-       <h2>ID: {id}</h2>
-       <button onClick={this.aumentar}>
-          Aumentar
-       </button>
-      <UserDetails  userID={id}/>
-    </div>
+      <div style={boxStyles}
+        onClick={this.handleClick}
+      >
+        
+        <Header />
+        <Hijo />
+      </div>
     );
   }
 }
