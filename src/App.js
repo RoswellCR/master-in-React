@@ -15,26 +15,27 @@ const Header = () => {
 };
 
 const App = () => {
-  const [mouseX, setMouseX] = useState(0)
-  const [mouseY, setMouseY] = useState(0)
+  const [clicks, setClicks] = useState(0)
+  const [emoji, setEmoji] = useState('🌎')
 
-  const handleMove=(e)=>{
-    setMouseX(e.clientX)
-    setMouseY(e.clientY)
-  }
+  const handleClick=()=>{
+  setClicks(clicks+1)
+ }
+ const toggleEmoji=()=>{
+   const nextEmoji = emoji === '🌎'? '😍' : '🌎'
+   setEmoji(nextEmoji)
+ }
 
   useEffect(()=>{
-    window.addEventListener('mousemove', handleMove)
-
-    return ()=>{
-      window.removeEventListener('mousemove', handleMove)
-    } 
-  })
+    alert('usando useEfect cuando cambie el emoji')
+  },[emoji])
 
   return (
     <>
       <Header />
-      <h1> X: {mouseX}  Y: {mouseY}</h1>
+      <button onClick={handleClick}> ADD {clicks} </button>
+      <button onClick={toggleEmoji}> Alternar Emoji{emoji} </button>
+      <h1>{emoji}</h1>
     </>
   );
 };
