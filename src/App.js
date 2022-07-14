@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //import './global.css'
 // const URL= 'https://jsonplaceholder.typicode.com/users/
 
@@ -11,27 +11,30 @@ const boxStyles = {
 };
 
 const Header = () => {
-  return <h1 style={boxStyles}> Hook *useState* </h1>;
+  return <h1 style={boxStyles}> Hook *useEfect* </h1>;
 };
 
 const App = () => {
-  const [clicks, setClicks] = useState(0);
-  const [title, setTitle] = useState("");
+  const [mouseX, setMouseX] = useState(0)
+  const [mouseY, setMouseY] = useState(0)
 
-  const addClicks = () => {
-    setClicks(clicks + 1);
-  };
+  const handleMove=(e)=>{
+    setMouseX(e.clientX)
+    setMouseY(e.clientY)
+  }
 
-  const handleInput = (e) => {
-    setTitle(e.target.value);
-  };
+  useEffect(()=>{
+    window.addEventListener('mousemove', handleMove)
+
+    return ()=>{
+      window.removeEventListener('mousemove', handleMove)
+    } 
+  })
 
   return (
     <>
       <Header />
-      <input type="text" value={title} onChange={handleInput} />
-      <button onClick={addClicks}> Clicks {clicks}</button>
-      <h3>{title}</h3>
+      <h1> X: {mouseX}  Y: {mouseY}</h1>
     </>
   );
 };
