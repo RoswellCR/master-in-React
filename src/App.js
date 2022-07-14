@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //import './global.css'
 // const URL= 'https://jsonplaceholder.typicode.com/users/
-import PubSub from 'pubsub-js';
+
 
 const boxStyles = {
   padding: '0.5em',
@@ -10,37 +10,22 @@ const boxStyles = {
   borderRadius: '0.3em',
   textAlign: 'center'
 }
+//retorna{Provider, Consumer}
+  const {Provider, Consumer} = React.createContext();
 
-class Bisnieto extends Component {
-  state = {
-    message: "***",
-  };
-  handleClick = () => {
-    PubSub.publish("saludo", "Hola desde el bisnieto");
-  };
-  componentDidMount() {
-    PubSub.subscribe("otro evento", (e, data) => {
-      this.setState({
-        message: data.title,
-      });
-    });
-  }
-  render() {
-    return (
-      <div style={boxStyles}>
-        {this.state.message}
-        <button onClick={this.handleClick}>Nieto</button>
-      </div>
-    );
-  }
-}
 
 class Nieto extends Component {
+  
   render() {
     return (
-      <div style={boxStyles}>
-        <Bisnieto />
-      </div>
+      <Consumer>
+        {(context)=>(
+          <div style={boxStyles}>
+            <h1>Nieto</h1>
+            <button onClick={context.addClicks} >Disparar {context.clicks}</button>
+          </div>
+        )}
+      </Consumer>
     );
   }
 }
@@ -48,6 +33,7 @@ class Hijo extends Component {
   render() {
     return (
       <div style={boxStyles}>
+        <h1>Hijo</h1>
         <Nieto />
       </div>
     );
@@ -55,31 +41,32 @@ class Hijo extends Component {
 }
 class Header extends Component {
   render() {
-    return <h1>Observer Pattern(Cualquiera)</h1>;
+    return <h1>Context API</h1>;
   }
 }
 class App extends Component {
-  componentDidMount() {
-    PubSub.subscribe("saludo", (e, data) => {
-      alert(data);
-    });
+  state={
+    clicks:0
   }
-  handleClick = () => {
-    PubSub.publish("otro evento", {
-      title: "Hola desde <App/>",
-    });
-  };
-  componentWillUnmount() {
-    PubSub.unsubscribe("otro evento");
+  addClicks=()=>{
+    this.setState(state=>({clicks: state.clicks +1} ))
   }
 
   render() {
     return (
-      <div style={boxStyles}>
-        <button onClick={this.handleClick}>Padre</button>
-        <Header />
-        <Hijo />
-      </div>
+      <Provider 
+        value={{
+          clicks:this.state.clicks,
+          addClicks:this.addClicks
+        }}
+        
+        >
+        <div style={boxStyles}>
+          <Header />
+          <Hijo />
+        </div>
+      </Provider>
+      
     );
   }
 }
