@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 //import './global.css'
 
 //{Provider, Consumer}
-const MyContext = React.createContext()
-
+const MyContext = React.createContext();
 
 const boxStyles = {
   padding: "0.5em",
@@ -14,77 +13,51 @@ const boxStyles = {
 };
 
 const Header = () => {
-  const context = useContext(MyContext)
+  const context = useContext(MyContext);
   return (
     <>
-      <h1 style={boxStyles}> Hook *useEfect* con ganador {context.winer}</h1>
-    <button onClick={context.handleClick}>  Ganador </button>
+      <h1 style={boxStyles}> Hooks Ejemplos {context.winer}</h1>
     </>
-  )
+  );
 };
 
-const Winer = () =>{
-   const context = useContext(MyContext)  
-  return(
-    <div>
-         <p>El ganador es : {context.winer}</p>
-       </div>
-  )
-}
-
-//consumir context de forma tradicional
-// const Winer=()=>{
-//   <MyContext.Consumer>
-//     {(context)=>{
-//       <div>
-//         <p>El ganador es : {context.winer}</p>
-//       </div>
-//     }}
-//   </MyContext.Consumer>
-//}
-
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [isFetching,setIsFetching] = useState(true); 
-  const [winer, setWiner] = useState('');
-  
-  const context = useContext(MyContext);
+  const [name, setName] = useState("");
+  const [products, setProducts] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
+  const entrada = useRef();
 
-  useEffect(()=>{
-    fetch('https://jsonplaceholder.typicode.com/users/')
-   .then(res=>res.json())
-   .then(users=> {
-     setUsers(users) 
-     setIsFetching(false)})
-   console.log(users)
-  },[]);
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(
+        "https://universidad-react-api-test.luxfenix.vercel.app/products?name=" +
+          name
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setProducts(data.products);
+          setIsFetching(false);
+        });
+    }, 6000);
+  }, [name]);
 
-  const handleClick=()=>{
-    setWiner('el primero')
-    console.log(winer);
-  }
+  const handleInput = (e) => {
+    setName(e.target.value);
+  };
 
   return (
-    <MyContext.Provider value={{
-      winer,
-      handleClick
-    }}>
     <>
       <Header />
-      {isFetching && <h1>Cargando Datos...</h1>} 
+      <input type="text" onChange={handleInput} ref={entrada} />
+      {isFetching && <h1> Cargando Datos...</h1>}
       <ul>
-      {users.map(user=>(
-        <li key={user.id} style={boxStyles}>
-          {`${user.name} `}
-        </li>
-      ))
-      }
-      
+        {products.map((prod) => (
+          <li key={prod.id} style={boxStyles}>
+            {`${prod.name} `}
+          </li>
+        ))}
       </ul>
-      <h1>{winer}</h1>
-      <Winer/>
     </>
-    </MyContext.Provider>
   );
 };
 export default App;
