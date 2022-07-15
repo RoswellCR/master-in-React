@@ -47,7 +47,8 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const [isFetching,setIsFetching] = useState(true); 
   const [winer, setWiner] = useState('');
-  const context = useContext(MyContext)
+  
+  const context = useContext(MyContext);
 
   useEffect(()=>{
     fetch('https://jsonplaceholder.typicode.com/users/')
@@ -60,7 +61,7 @@ const App = () => {
 
   const handleClick=()=>{
     setWiner('el primero')
-    alert('El ganador es '+ context.winer);
+    console.log(winer);
   }
 
   return (
@@ -80,7 +81,7 @@ const App = () => {
       }
       
       </ul>
-      
+      <h1>{winer}</h1>
       <Winer/>
     </>
     </MyContext.Provider>
