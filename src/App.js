@@ -13,10 +13,10 @@ const boxStyles = {
 };
 
 const Header = () => {
-  const context = useContext(MyContext);
+  //const context = useContext(MyContext);
   return (
     <>
-      <h1 style={boxStyles}> Hooks Ejemplos {context.winer}</h1>
+      <h1 style={boxStyles}> Hooks Ejemplos</h1>
     </>
   );
 };
@@ -30,8 +30,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       fetch(
-        "https://universidad-react-api-test.luxfenix.vercel.app/products?name=" +
-          name
+        'https://universidad-react-api-test.luxfenix.vercel.app/products?name='+ name
       )
         .then((res) => res.json())
         .then((data) => {
@@ -50,6 +49,7 @@ const App = () => {
       <Header />
       <input type="text" onChange={handleInput} ref={entrada} />
       {isFetching && <h1> Cargando Datos...</h1>}
+      <h1>{name}</h1>
       <ul>
         {products.map((prod) => (
           <li key={prod.id} style={boxStyles}>
