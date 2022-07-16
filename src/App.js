@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 //import './global.css'
 
-//{Provider, Consumer}
-const MyContext = React.createContext();
 
 const boxStyles = {
   padding: "0.5em",
@@ -20,43 +18,73 @@ const Header = () => {
     </>
   );
 };
+//usar el useReducer cuando exista un estado con muchos valores
+  const reducer = (state, action)=>{
+    switch (action.type) {
+      case 'INCREMENT':
+        return {
+          ...state,
+          count: state.count+1
+        }
+      case 'DECREMENT':
+          return {
+            ...state,
+            count: state.count-1
+          }
+      case 'SET_TITLE':
+          return {
+            ...state,
+            title: action.title //se captura el valor por la 'action'
+          }   
+      default:
+        return state;
+    }
+  }
+//inicializando el state para pasarlo al reducer
+const initialState = {
+  count: 0,
+  title:''
+}
+
 
 const App = () => {
-  const [name, setName] = useState("");
-  const [products, setProducts] = useState([]);
-  const [isFetching, setIsFetching] = useState(true);
-  const entrada = useRef();
+  //const [count, setCount] = useState(0);
+  //const [title, setTitle] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
+  
 
-  useEffect(() => {
-    setTimeout(() => {
-      fetch(
-        'https://universidad-react-api-test.luxfenix.vercel.app/products?name='+ name
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setProducts(data.products);
-          setIsFetching(false);
-        });
-    }, 6000);
-  }, [name]);
 
-  const handleInput = (e) => {
-    setName(e.target.value);
+  const increment=()=>{
+    dispatch({type : 'INCREMENT'})
+  }
+
+  const decrement=()=>{
+    dispatch({type : 'DECREMENT'})
+  }
+
+  const handleTitle = (e) => {
+    //setTitle(e.target.value);
+    dispatch({
+      type: 'SET_TITLE',
+      title: e.target.value
+    })
   };
 
   return (
     <>
       <Header />
-      <input type="text" onChange={handleInput} ref={entrada} />
-      {isFetching && <h1> Cargando Datos...</h1>}
-      <h1>{name}</h1>
-      <ul>
-        {products.map((prod) => (
-          <li key={prod.id} style={boxStyles}>
-            {`${prod.name} `}
-          </li>
-        ))}
-      </ul>
+      <input
+      type='text'
+      onChange={handleTitle}
+      value={state.title}
+      />
+      <button onClick={increment}>
+        Increment
+      </button>
+      <button onClick={decrement}>
+        Decrement
+      </button>
+      <h1>{`${state.count} : ${state.title}`}</h1>
     </>
   );
 };
