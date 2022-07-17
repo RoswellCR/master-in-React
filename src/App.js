@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
+import React, { Children, useCallback, useContext, useEffect, useReducer, useRef, useState } from "react";
 //import './global.css'
 
 
@@ -14,77 +14,48 @@ const Header = () => {
   //const context = useContext(MyContext);
   return (
     <>
-      <h1 style={boxStyles}> Hooks Ejemplos</h1>
+      <h1 style={boxStyles}> Hooks useMemo and useCallBack</h1>
     </>
   );
 };
-//usar el useReducer cuando exista un estado con muchos valores
-  const reducer = (state, action)=>{
-    switch (action.type) {
-      case 'INCREMENT':
-        return {
-          ...state,
-          count: state.count+1
-        }
-      case 'DECREMENT':
-          return {
-            ...state,
-            count: state.count-1
-          }
-      case 'SET_TITLE':
-          return {
-            ...state,
-            title: action.title //se captura el valor por la 'action'
-          }   
-      default:
-        return state;
-    }
-  }
-//inicializando el state para pasarlo al reducer
-const initialState = {
-  count: 0,
-  title:''
-}
 
+ const getRandomColor=()=>'#'+Math.random().toString(16).slice(2, 8)
+ 
+ const Button=React.memo(({callback, children})=>{
+  const styles={
+    padding: '1em',
+    fontSize: '20px',
+    background: getRandomColor()
+  }
+  return (
+    <button style={styles} onClick={callback}> 
+      {children}
+    </button>
+  )
+ })
 
 const App = () => {
-  //const [count, setCount] = useState(0);
-  //const [title, setTitle] = useState('');
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
   
+  const incrementA= useCallback(()=>{
+    setA(a => a+1)
+  },[])
 
-
-  const increment=()=>{
-    dispatch({type : 'INCREMENT'})
-  }
-
-  const decrement=()=>{
-    dispatch({type : 'DECREMENT'})
-  }
-
-  const handleTitle = (e) => {
-    //setTitle(e.target.value);
-    dispatch({
-      type: 'SET_TITLE',
-      title: e.target.value
-    })
-  };
+  const incrementB= useCallback(()=>{
+    setB(b => b+a)
+  },[a]) //se actualiza cuando a cambia
 
   return (
     <>
       <Header />
-      <input
-      type='text'
-      onChange={handleTitle}
-      value={state.title}
-      />
-      <button onClick={increment}>
-        Increment
-      </button>
-      <button onClick={decrement}>
-        Decrement
-      </button>
-      <h1>{`${state.count} : ${state.title}`}</h1>
+      <Button callback={incrementA}>
+        Increment A
+      </Button>
+      <Button callback={incrementB}>
+        Increment B
+      </Button>
+      <h1>{`A: ${a} B: ${b}`}</h1>
     </>
   );
 };
