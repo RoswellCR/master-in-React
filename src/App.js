@@ -1,51 +1,46 @@
-import React, { Children, lazy, Suspense, useCallback, useContext, useEffect, useReducer, useRef, useState } from "react";
-//import Images from "./components/Images";
-//import './global.css'
+import React from 'react'
+import { BrowserRouter, Route } from 'react-router-dom'
 
-//code splitting - Importacion dinamica
-const Image = lazy(()=> import("./components/Image"));
+const Hola = () => (
+  <h1>Hola</h1>
+)
 
-const boxStyles = {
-  padding: "0.5em",
-  margin: "0.5em",
-  border: "1px solid gray",
-  borderRadius: "0.3em",
-  textAlign: "center",
-};
+const Productos = () => (
+  <h1>Productos</h1>
+)
 
-const Header = () => {
-  //const context = useContext(MyContext);
-  return (
-    <>
-      <h1 style={boxStyles}> Hooks useMemo and useCallBack</h1>
-    </>
-  );
-};
+const Home = () => (
+  <h1>Home</h1>
+)
+
+const HolaTodos = () => (
+  <h1>Hola a todos</h1>
+)
 
 
 const App = () => {
-  const [show, setShow] = useState(false);
-
-  const toggle = () => {
-    setShow(!show);
-  };
-
-  const styles = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
-  }
-
   return (
-    <div style= {styles}>
-      <button onClick={toggle}>{show ? "Ocultar" : "Mostrar"}</button>
-      {show && (
-        <Suspense fallback={<h1>cargando...</h1>}>
-          <Image />
-        </Suspense>
-      )}
-    </div>
-  );
-};
+    <BrowserRouter>
+      <Route
+          path='/'
+          exact
+          component={Home}
+        />
+      <Route
+        path='/hola'
+        exact
+        component={Hola}
+      />
+      <Route
+          path='/productos'
+          component={Productos}
+        />
+      <Route
+          path='/hola/todos'
+          component={HolaTodos}
+        />  
+    </BrowserRouter>
+  )
+}
+
 export default App;
