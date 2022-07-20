@@ -1,6 +1,9 @@
-import React, { Children, useCallback, useContext, useEffect, useReducer, useRef, useState } from "react";
+import React, { Children, lazy, Suspense, useCallback, useContext, useEffect, useReducer, useRef, useState } from "react";
+//import Images from "./components/Images";
 //import './global.css'
 
+//code splitting - Importacion dinamica
+const Image = lazy(()=> import("./components/Image"));
 
 const boxStyles = {
   padding: "0.5em",
@@ -19,44 +22,30 @@ const Header = () => {
   );
 };
 
- const getRandomColor=()=>'#'+Math.random().toString(16).slice(2, 8)
- 
- const Button=React.memo(({callback, children})=>{
-  const styles={
-    padding: '1em',
-    fontSize: '20px',
-    background: getRandomColor()
-  }
-  return (
-    <button style={styles} onClick={callback}> 
-      {children}
-    </button>
-  )
- })
 
 const App = () => {
-  const [a, setA] = useState(0);
-  const [b, setB] = useState(0);
-  
-  const incrementA= useCallback(()=>{
-    setA(a => a+1)
-  },[])
+  const [show, setShow] = useState(false);
 
-  const incrementB= useCallback(()=>{
-    setB(b => b+a)
-  },[a]) //se actualiza cuando a cambia
+  const toggle = () => {
+    setShow(!show);
+  };
+
+  const styles = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  }
 
   return (
-    <>
-      <Header />
-      <Button callback={incrementA}>
-        Increment A
-      </Button>
-      <Button callback={incrementB}>
-        Increment B
-      </Button>
-      <h1>{`A: ${a} B: ${b}`}</h1>
-    </>
+    <div style= {styles}>
+      <button onClick={toggle}>{show ? "Ocultar" : "Mostrar"}</button>
+      {show && (
+        <Suspense fallback={<h1>cargando...</h1>}>
+          <Image />
+        </Suspense>
+      )}
+    </div>
   );
 };
 export default App;
