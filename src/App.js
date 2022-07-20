@@ -29,16 +29,14 @@ const App = () => {
       <Route
         path='/hola'
         exact
-        component={Hola}
+        render={Hola}
       />
       <Route
-          path='/productos'
-          component={Productos}
-        />
-      <Route
-          path='/hola/todos'
-          component={HolaTodos}
-        />  
+          path='/productos'>
+        {({match})=>{
+          if(!match) return <div>Wops, no coincide con '/productos'</div>
+          return (<Productos/> )}}
+      </Route>      
     </BrowserRouter>
   )
 }
