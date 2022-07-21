@@ -1,13 +1,14 @@
 import React from 'react'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Link , NavLink } from 'react-router-dom'
 
-const Hola = () => (
-  <h1>Hola</h1>
-)
+const Hola = () => {
+  return (<h1>Hola</h1>)
+}
 
-const Productos = () => (
-  <h1>Productos</h1>
-)
+const Productos = () => {
+  return <h1>Productos</h1>
+}
+
 
 const Home = (props) => {
   console.log(props);
@@ -16,27 +17,38 @@ const Home = (props) => {
   )
 }
 
-const HolaTodos = () => (
-  <h1>Hola a todos</h1>
-)
 
 const Navegation = ()=> {
  //console.log("navigation");
  return (
- <nav>
-   <Link to={{
-     pathname:'/',
-     search : '?ordenar=nombre',
-     hash: '#hash-otro',
-     state: {
-       nombre: 'roswell',
-       age: 30
-     }
-  }} 
-  > Home </Link>
-   <Link to="/hola"> Hola </Link>
-   <Link to="/productos"> Productos </Link>
- </nav>)
+   <nav>
+     <NavLink
+       to="/"
+       exact
+       activeStyle={{ color: "orangered" }}
+       activeClassName={{ color: "green" }}
+     >
+       {" "}
+       Home{" "}
+     </NavLink>
+     <NavLink
+       to="/hola"
+       activeStyle={{ color: "orangered" }}
+       activeClassName={{ color: "green" }}
+     >
+       {" "}
+       Hola{" "}
+     </NavLink>
+     <NavLink to="/productos" 
+     activeClassName={{ color: "green" }}
+     isActive={(match, location)=>{
+       return false
+       }}>
+       {" "}
+       Productos{" "}
+     </NavLink>
+   </nav>
+ );
 }
 
 
@@ -47,20 +59,16 @@ const App = () => {
       <Route
           path='/'
           exact
-          component={Home}
+          render={Home}
         />
       <Route
         path='/hola'
-        
         render={Hola}
       />
       <Route
-          path='/productos'>
-        {({match})=>{
-          if(!match) return <div>Wops, no coincide con '/productos'</div>
-          return (<Productos/> )}}
-      </Route>      
-    </BrowserRouter>
+          path='/productos'
+        render={Productos}/>
+      </BrowserRouter>
   )
 }
 
