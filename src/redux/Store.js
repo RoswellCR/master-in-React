@@ -17,31 +17,33 @@ function counter (state= initialState, action){
 const store  = createStore(counter)
 
 
-store.subscribe(()=>{
-    console.log(store.getState())
-})
-//creadores de acciones 
-const increment = ()=>{
+// store.subscribe(()=>{
+//     console.log(store.getState())
+// })
+// //creadores de acciones 
+export const increment = ()=>{
     return {
         type:'INCREMENT'
     }
 }
 
-const decrement = ()=>{
+export const decrement = ()=>{
     return {
         type:'DECREMENT'
     }
 }
 
-store.dispatch(decrement())
-store.dispatch(increment())
+// store.dispatch(decrement())
+// store.dispatch(increment())
 
-//acciones
-store.dispatch({
-    type: 'INCREMENT'
-})
+// //acciones
+// store.dispatch({
+//     type: 'INCREMENT'
+// })
 
 
-store.dispatch({
-    type: 'DECREMENT'
-})
+// store.dispatch({
+//     type: 'DECREMENT'
+// })
+
+export default store;
