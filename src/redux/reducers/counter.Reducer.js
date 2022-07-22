@@ -1,6 +1,4 @@
-
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
+import {INCREMENT, DECREMENT} from '../actions/counter.Action'
 
 const initialState= 0;
 

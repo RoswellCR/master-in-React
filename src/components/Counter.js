@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {increment, decrement} from '../Store';
+import {increment, decrement} from '../redux/actions/counter.Action';
 
 const Counter = (props)=>{
     console.log(props);
