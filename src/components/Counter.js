@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import {connect} from 'react-redux'
-import {increment, decrement} from '../redux/Store';
+import React from 'react';
+import {connect} from 'react-redux';
+import {increment, decrement} from '../Store';
 
 const Counter = (props)=>{
     console.log(props);
@@ -14,21 +14,20 @@ const Counter = (props)=>{
             <button onClick={props.decrement}>
                 -
             </button>
-            <h1>{props.count}</h1>
+            <h1>{props.state.counter}</h1>
         </div>
     )
 }
 
 const mapStateToProps=(state)=>{
     return{
-        count: state //se declara aqui lo que se va a recibir de store, 
-                    //  se conecta a la store
+        state 
     }
 }
 
 const mapDispatchToProps=(dispatch)=>{
     return {
-        increment:()=>dispatch(increment()),
+        increment:()=>dispatch(increment()), 
         decrement:()=>dispatch(decrement())
     }
 }

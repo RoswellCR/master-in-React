@@ -1,13 +1,8 @@
 import React from 'react'
-import store from './redux/Store';
-import { Provider} from 'react-redux'
-//Provider: permite el acceso al store en toda la applicacion
-import Counter from './components/Counter'
-
-const Videos = () => (
-  <h1>Videos</h1>
-)
-
+import store from './Store';
+import { Provider} from 'react-redux'; //Provider: permite el acceso al store en toda la applicacion
+import Counter from './components/Counter';
+import Info from './components/Info';
 
 
 const App = () => {
@@ -15,6 +10,7 @@ const App = () => {
       <Provider store={store}>
         <h1>Hola</h1>
         <div>
+          <Info/>
           <Counter/>
         </div>
       </Provider>
