@@ -1,6 +1,9 @@
 import { createStore , applyMiddleware} from "redux";
+import logger from "redux-logger";
 //import { INCREMENT, DECREMENT } from "./reducers/counter";
 import rootReducer from './reducers'
+// usar midleware redux-logger para visualizar el estado de la app por consola
+
 
 const confirmDeleteTodo=(store)=>(next)=>(action)=>{
     console.log('se va a realizar una nueva accion', action)
@@ -17,6 +20,6 @@ const confirmDeleteTodo=(store)=>(next)=>(action)=>{
 
 
 //ALMACENA EL ESTADO
-const store = createStore(rootReducer, applyMiddleware(confirmDeleteTodo))
+const store = createStore(rootReducer, applyMiddleware(confirmDeleteTodo, logger))
 
 export default store;
