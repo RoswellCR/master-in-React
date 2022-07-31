@@ -3,9 +3,9 @@ import store from './redux/Store';
 import { Provider} from 'react-redux'; //Provider: permite el acceso al store en toda la applicacion
 // import Counter from './components/Counter';
 // import Info from './components/Info';
-import Fruits from './components/Fruits';
-import Todos from './components/Todos/Todos';
-
+// import Fruits from './components/Fruits';
+// import Todos from './components/Todos/Todos';
+import Controller from './components/Controller'
 
 const App = () => {
   return (
@@ -13,8 +13,9 @@ const App = () => {
         <div>
           {/* <Info/>
           <Counter/> */}
-          <Todos/>
-          <Fruits/>
+          {/* <Todos/>
+          <Fruits/> */}
+          <Controller/>
         </div>
       </Provider>
       
