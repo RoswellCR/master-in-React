@@ -5,7 +5,8 @@ import { Provider} from 'react-redux'; //Provider: permite el acceso al store en
 // import Info from './components/Info';
 // import Fruits from './components/Fruits';
 // import Todos from './components/Todos/Todos';
-import Controller from './components/Controller'
+import Blogs from './components/Blogs';
+//import Controller from './components/Controller'
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
           <Counter/> */}
           {/* <Todos/>
           <Fruits/> */}
-          <Controller/>
+          {/* <Controller/> */}
+          <Blogs/>
         </div>
       </Provider>
       
