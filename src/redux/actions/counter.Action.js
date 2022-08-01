@@ -16,7 +16,7 @@ export const decrement = ()=>{
 }
 
 export const incrementAsync = (dispatch) => {
-  return setTimeout(() => {
+  return setTimeout(() => { 
     dispatch({
       type: "INCREMENT",
     });
